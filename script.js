@@ -14,12 +14,16 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: config.MY_KEY
 }).addTo(mymap);
 
+
 for (var i = 0; i < parks.features.length; i++) {
 
   //console.log(parks.features[i].properties.omppropid);
+  console.log(parks.features[i]);
   L.geoJSON(parks.features[i]).addTo(mymap)
 
 }
+
+console.log(parks.features.length);
 
 function readTextFile(file)
 {
