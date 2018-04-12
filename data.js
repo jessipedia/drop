@@ -1,47 +1,83 @@
 let fs = require('fs');
-let schema = require('./schema.js');
+let schema = require('./schema.js').Property;
+var mongoose = require('mongoose');
 
 let fileNameParks = 'parks_properties_data.geojson';
 let content = fs.readFileSync(fileNameParks);
 let jsonContent = JSON.parse(content);
 
+let count = jsonContent.features.length;
 
-let fileNameFount = 'drinking_fountains.csv';
-let data;
-let readableStream = fs.createReadStream(fileNameFount);
-readableStream.setEncoding('utf8');
+mongoose.connect('mongodb://localhost:12345/drop');
 
-readableStream.on('data', function(chunk) {
-    data += chunk;
-});
+for (var i = 0; i < jsonContent.features.length; i++) {
 
-readableStream.on('end', function() {
-  let csvData = data.split('\n');
-  let numFountains = [];
-  let site_id = [];
-  let site_name = [];
-  let prop_num = [];
+  let prop = jsonContent.features[i];
 
+  let property = new Property ({
+    type: prop.type,
+     properties:
+      { us_congres: prop.properties.us_congres,
+        mapped: toBoolean(prop.properties.mapped),
+        global_id: prop.properties.global_id,
+        zipcode: prop.properties.zipcode,
+        acres: prop.properties.acres,
+        location: prop.properties.location,
+        typecatego: prop.properties.typecatego,
+        commission: prop.properties.commission,
+        url: prop.properties.url,
+        permitpare: prop.properties.permitpare,
+        eapply: prop.properties.eapply,
+        parentid: prop.properties.parentid,
+        gispropnum: prop.properties.gispropnum,
+        acquisitio: prop.properties.acquisitio,
+        retired: toBoolean(prop.properties.retired),
+        subcategor: prop.properties.subcategor,
+        jurisdicti: prop.properties.jurisdicti,
+        objectid: prop.properties.objectid,
+        communityb: prop.properties.communityb,
+        name311: prop.properties.name311,
+        permitdist: prop.properties.permitdist,
+        pip_ratabl: prop.properties.pip_ratabl,
+        department: prop.properties.department,
+        precinct: prop.properties.precinct,
+        permit: prop.properties.permit,
+        omppropid: prop.properties.omppropid,
+        gisobjid: prop.properties.gisobjid,
+        signname: prop.properties.signname,
+        address: prop.properties.address,
+        nys_assemb: prop.properties.nys_assemb,
+        class: prop.properties.class,
+        nys_senate: prop.properties.nys_senate,
+        councildis: prop.properties.councildis,
+        borough: prop.properties.borough,
+        waterfront: prop.properties.waterfront,
+        drink_fount: false,
+        df_info: [],
+        bathrooms: false,
+        br_info: []
+      },
+     geometry: { type: prop.geometry.type, coordinates: prop.geometry.coordinates },
+     created: new Date()
+  })
 
+  property.save(function(err) {
+    if (err) {
+      console.log("Complete Error saving: " + err);
+    } else{
+      count = count - 1
+      console.log(count);
+    }
+    if (count == 0){
+      mongoose.disconnect();
+    }
+  })
+}
 
-console.log(schema);
-
-  // for (var i = 0; i < csvData.length; i++) {
-  //   //[0]Property Name,[1]Property Number,[2]Site Name,[3]Site ID,[4]Borough,[5]Community Board,[6]Drinking Fountains
-  //   let row = csvData[i].split(',');
-  //   prop_num.push(row[1]);
-  //   site_name.push(row[2]);
-  //   site_id.push(row[3]);
-  //   numFountains.push(row[6])
-  // }
-  //
-  // for (var i = 0; i < jsonContent.features.length; i++) {
-  //   jsonContent.features[i].properties.drink_fount = false;
-  //   jsonContent.features[i].properties.df_info = [];
-  //   jsonContent.features[i].properties.bathrooms = false;
-  //   jsonContent.features[i].properties.br_info = [];
-  //
-  //   console.log(jsonContent.features[i]);
-  //
-  // }
-})
+function toBoolean(value){
+  if(value == 'False'){
+    return false
+  } else if (value == 'True'){
+    return true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "drop",
+  "version": "1.0.0",
+  "description": "A webapp for finding drinking fountains",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessipedia/drop.git"
+  },
+  "author": "JSD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jessipedia/drop/issues"
+  },
+  "homepage": "https://github.com/jessipedia/drop#readme",
+  "dependencies": {
+    "mongoose": "^5.0.14"
+  }
+}
