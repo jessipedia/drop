@@ -1,27 +1,26 @@
 var mongoose  = require('mongoose');
 var Schema    = mongoose.Schema;
 
-
 propSchema = new Schema({
                    type: String,
                     properties:
-                     { us_congres: String,
+                     { us_congress: String,
                        mapped: Boolean,
                        global_id: String,
                        zipcode: String,
                        acres: Number,
                        location: String,
-                       typecatego: String,
+                       typecategory: String,
                        commission: Date,
                        url: String,
                        permitpare: String,
                        eapply: String,
                        parentid: String,
                        gispropnum: String,
-                       acquisitio: Date,
+                       acquisition: Date,
                        retired: Boolean,
-                       subcategor: String,
-                       jurisdicti: String,
+                       subcategory: String,
+                       jurisdiction: String,
                        objectid: String,
                        communityb: String,
                        name311: String,
