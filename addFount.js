@@ -50,20 +50,38 @@ function updateDocs() {
   let count = prop_num.length
 
   for (var i = 0; i < prop_num.length; i++) {
-    let prop = prop_num[i]
-    Property.find({'properties.omppropid': prop_num[i] }, function(err, doc){
-      console.log(prop);
+    let prop = prop_num[i];
+    let siteId = site_id[i];
+    let siteName = site_name[i];
+    let num = numFountains[i];
 
+    Property.find({'properties.omppropid': prop_num[i] }, function(err, doc){
+      //console.log(prop);
       if (err) {
         mongoose.disconnect();
         console.log('err DB Disconnected ' + err);
       } else if (doc.length > 0){
         count = count - 1;
-        console.log('Doc');
+        // console.log('Doc');
+        // console.log(doc);
+          if (doc[0].properties.drink_fount == false){
+            console.log('No Fountains!');
+            doc[0].properties.drink_fount = true;
+            doc[0].save();
+            console.log(doc[0].properties.drink_fount);
 
-        let property = new Property({
-          properties.drink_fount: true,
-        })
+            //console.log(doc[0]);
+          } else{
+            console.log('Fountains');
+            fountObj = {
+              num: num,
+              site_id: siteId,
+              site_name: siteName
+            }
+            console.log(fountObj);
+            doc[0].properties.df_info.push(fountObj);
+            doc[0].save();
+          }
       } else{
         count = count - 1;
         fs.appendFileSync('drinking_fountain_wo_prop.txt', prop + '\n')

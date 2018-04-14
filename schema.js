@@ -64,5 +64,5 @@ propSchema = new Schema({
 
 Property = mongoose.model('properties', propSchema);
 
-module.exports.User = Property;
+module.exports.Property = Property;
 module.exports.Schema = propSchema;
