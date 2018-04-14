@@ -2,8 +2,8 @@ let fs = require('fs');
 let schema = require('./schema.js').Property;
 let mongoose = require('mongoose');
 
-//[0]Property Name,[1]Property Number,[2]Site Name,[3]Site ID,[4]Borough,[5]Community Board,[6]Drinking Fountains
-let fileNameFount = 'drinking_fountains.csv';
+//[0]Name, [1]Location,	[2]Open Year-Round,	[3]Handicap Accessible,	[4]Borough,	[5]Comments
+let fileNameFount = 'Directory_Of_Toilets_In_Public_Parks.csv';
 let data;
 let readableStream = fs.createReadStream(fileNameFount);
 
@@ -23,19 +23,20 @@ mongoose.connect('mongodb://localhost:12345/drop');
 readableStream.on('end', function() {
   let csvData = data.split('\n');
 
-  makeArrays(csvData).then(updateDocs());
+  makeArrays(csvData)//.then(updateDocs());
 
 })
 
 function makeArrays(data){
   return new Promise(resolve => {
-    for (let i = 0; i < data.length; i++) {
-      let row = data[i].split(',');
-      prop_num.push(row[1]);
-      site_name.push(row[2]);
-      site_id.push(row[3]);
-      numFountains.push(row[6])
-    }
+    console.log(data);
+    // for (let i = 0; i < data.length; i++) {
+    //   let row = data[i].split(',');
+    //   prop_num.push(row[1]);
+    //   site_name.push(row[2]);
+    //   site_id.push(row[3]);
+    //   numFountains.push(row[6])
+    // }
   })
 }
 

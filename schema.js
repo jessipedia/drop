@@ -42,6 +42,7 @@ propSchema = new Schema({
                        drink_fount: Boolean,
                        df_info: [
                         {
+                          _id: false,
                           num: Number,
                           site_id: String,
                           site_name: String
@@ -50,6 +51,7 @@ propSchema = new Schema({
                        bathrooms: Boolean,
                        br_info: [
                          {
+                          _id: false,
                           site_name: String,
                           site_location: String,
                           year_round: Boolean,
