@@ -2,15 +2,15 @@ let fs = require('fs');
 let schema = require('./schema.js').Property;
 let mongoose = require('mongoose');
 
-//[0]Name, [1]Location,	[2]Open Year-Round,	[3]Handicap Accessible,	[4]Borough,	[5]Comments
-let fileNameFount = 'Directory_Of_Toilets_In_Public_Parks.csv';
+
+let fileNameFount = 'bathrooms.tsv';
 let data;
 let readableStream = fs.createReadStream(fileNameFount);
 
-let numFountains = [];
-let site_id = [];
+let site_loc = [];
 let site_name = [];
-let prop_num = [];
+let year_round = [];
+let access = [];
 
 readableStream.setEncoding('utf8');
 
@@ -23,54 +23,59 @@ mongoose.connect('mongodb://localhost:12345/drop');
 readableStream.on('end', function() {
   let csvData = data.split('\n');
 
-  makeArrays(csvData)//.then(updateDocs());
+  makeArrays(csvData).then(updateDocs());
 
 })
 
 function makeArrays(data){
+  //[0]Name, [1]Location,	[2]Open Year-Round,	[3]Handicap Accessible,	[4]Borough,	[5]Comments
   return new Promise(resolve => {
-    console.log(data);
-    // for (let i = 0; i < data.length; i++) {
-    //   let row = data[i].split(',');
-    //   prop_num.push(row[1]);
-    //   site_name.push(row[2]);
-    //   site_id.push(row[3]);
-    //   numFountains.push(row[6])
-    // }
+    //console.log(data);
+    for (let i = 0; i < data.length; i++) {
+      let row = data[i].split('\t');
+
+      site_loc.push(row[1]);
+      site_name.push(row[0]);
+      year_round.push(row[2]);
+      access.push(row[3]);
+
+    }
   })
 }
 
 function updateDocs() {
 
-  let count = prop_num.length
+  let count = site_name.length
 
-  for (var i = 0; i < prop_num.length; i++) {
-    let prop = prop_num[i];
-    let siteId = site_id[i];
+  for (var i = 0; i < site_name.length; i++) {
+    let siteLoc = site_loc[i];
     let siteName = site_name[i];
-    let num = numFountains[i];
+    let yearRound = year_round[i];
+    let isAccess = access[i];
 
-    Property.find({'properties.omppropid': prop_num[i] }, function(err, doc){
-      //console.log(prop);
+
+    Property.find({'properties.eapply': siteName }, function(err, doc){
+      //console.log(siteName);
       if (err) {
         mongoose.disconnect();
         console.log('err DB Disconnected ' + err);
       } else if (doc.length > 0){
         count = count - 1;
-        doc[0].properties.drink_fount = true;
+        doc[0].properties.bathrooms = true;
         fountObj = {
-          num: num,
-          site_id: siteId,
-          site_name: siteName
+          site_name: siteName,
+          site_location: siteLoc,
+          year_round: toBoolean(yearRound),
+          accessible: toBoolean(isAccess)
 
         }
 
-        doc[0].properties.df_info.push(fountObj);
+        doc[0].properties.br_info.push(fountObj);
         doc[0].save();
         console.log(count);
       } else{
         count = count - 1;
-        fs.appendFileSync('drinking_fountain_wo_prop.txt', prop + '\n')
+        fs.appendFileSync('bathrooms_wo_loc.txt', siteName + '\n')
         console.log(count);
       }
 
@@ -79,5 +84,13 @@ function updateDocs() {
         console.log('DB Disconnected');
       }
     })
+  }
+}
+
+function toBoolean(value){
+  if(value == 'Yes'){
+    return true
+  } else {
+    return false
   }
 }
