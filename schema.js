@@ -1,7 +1,7 @@
 var mongoose  = require('mongoose');
 var Schema    = mongoose.Schema;
 
-propSchema = new Schema({
+const propSchema = new Schema({
                    type: String,
                     properties:
                      { us_congress: String,
@@ -64,7 +64,7 @@ propSchema = new Schema({
                   //
 }, { typeKey: '$type' })
 
-Property = mongoose.model('properties', propSchema);
+const Property = mongoose.model('properties', propSchema);
 
 module.exports.Property = Property;
 module.exports.Schema = propSchema;
