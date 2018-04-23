@@ -8,7 +8,7 @@ let jsonContent = JSON.parse(content);
 
 let count = jsonContent.features.length;
 
-mongoose.connect('mongodb://localhost:12345/drop');
+mongoose.connect('mongodb://jscottdutcher:5eD8xe5T6vr3@jessdb-shard-00-00-98ywm.mongodb.net:27017,jessdb-shard-00-01-98ywm.mongodb.net:27017,jessdb-shard-00-02-98ywm.mongodb.net:27017/test?ssl=true&replicaSet=JessDB-shard-0&authSource=admin');
 
 for (var i = 0; i < jsonContent.features.length; i++) {
 
