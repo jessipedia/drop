@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const schema = require('./schema.js').Property;
+const Property = require('./schema.js').Property;
 const mdbUri = process.env.DROP_MDB_URI;
 
 const server = app.listen(process.env.PORT || 3000, listen);
@@ -46,4 +46,21 @@ function buildQuery(data){
 
 function search(query){
   console.log(query);
+  
+  mongoose.connect(mdbUri);
+  console.log('DB Connected');
+  
+  Property.find({query}, function(err, docs){
+    if (err) {
+      //res.send(err)
+      console.log(err);
+      mongoose.disconnect();
+      console.log('DB Disconnected');
+    } else {
+      //res.send(docs);
+      console.log(docs);
+      mongoose.disconnect();
+      console.log('DB Disconnected');
+    }
+  })
 }
