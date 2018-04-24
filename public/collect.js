@@ -1,8 +1,15 @@
 window.onload = drawButtons();
 
+document.getElementById('submitButton').addEventListener('click', submitLoc);
+
 function drawButtons(){
   let inputBox = document.createElement('div');
   inputBox.setAttribute("class", "inputBox");
+  
+  // let inputForm = document.createElement('form');
+  // inputForm.setAttribute("action", "/addloc");
+  // inputForm.setAttribute("method", "post");
+  // inputBox.appendChild(inputForm);
   
   let checkbox1 = document.createElement('input');
   checkbox1.setAttribute("id", "checkbox1");
@@ -42,7 +49,12 @@ function drawButtons(){
   
   let submitButton = document.createElement('input');
   submitButton.setAttribute("type", "submit");
+  submitButton.setAttribute("id", "submitButton");
   inputBox.appendChild(submitButton);
   
   container.appendChild(inputBox)
+}
+
+function submitLoc(){
+  console.log('Button!');
 }

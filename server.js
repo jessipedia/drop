@@ -16,6 +16,10 @@ app.use(express.static('public'));
 
 app.get('/api/v1/prop', propResult);
 
+app.post('/addloc', function (req, res) {
+  res.send('POST request to the homepage')
+})
+
 function propResult(req, res){
   const data = req.query;
   // const drink_fount = data.drink_fount;
