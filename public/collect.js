@@ -1,3 +1,5 @@
+let httpRequest;
+
 window.onload = drawButtons();
 
 document.getElementById('submitButton').addEventListener('click', submitLoc);
@@ -57,4 +59,25 @@ function drawButtons(){
 
 function submitLoc(){
   console.log('Button!');
+  
+  httpRequest = new XMLHttpRequest();
+  
+  if (!httpRequest){
+    console.log('Cannot create XMLHTTP instance');
+    return false;
+  }
+  httpRequest.onreadystatechange = alertContents;
+  httpRequest.open('POST', '/addloc');
+  httpRequest.setRequestHeader('Content-Type', 'text/html');
+  httpRequest.send();
+}
+
+function alertContents(){
+  if (httpRequest.readyState === XMLHttpRequest.DONE){
+    if (httpRequest.status === 200){
+      console.log(httpRequest.responseText);
+    } else {
+      console.log('There was a problem with the request');
+    }
+  }
 }
