@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const Property = require('./schema.js').Property;
 const mdbUri = process.env.DROP_MDB_URI;
@@ -13,11 +14,14 @@ function listen(){
 }
 
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/api/v1/prop', propResult);
 
 app.post('/addloc', function (req, res) {
+  let info = req.body;
   res.send('POST request to the homepage')
+  console.log(info);
 })
 
 function propResult(req, res){

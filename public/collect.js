@@ -61,6 +61,7 @@ function submitLoc(){
   console.log('Button!');
   
   httpRequest = new XMLHttpRequest();
+  let info = 'lorem=ipsum&name=binny';
   
   if (!httpRequest){
     console.log('Cannot create XMLHTTP instance');
@@ -68,8 +69,8 @@ function submitLoc(){
   }
   httpRequest.onreadystatechange = alertContents;
   httpRequest.open('POST', '/addloc');
-  httpRequest.setRequestHeader('Content-Type', 'text/html');
-  httpRequest.send();
+  httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  httpRequest.send(info);
 }
 
 function alertContents(){
