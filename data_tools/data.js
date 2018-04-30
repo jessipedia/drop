@@ -5,10 +5,11 @@ var mongoose = require('mongoose');
 let fileNameParks = 'parks_properties_data.geojson';
 let content = fs.readFileSync(fileNameParks);
 let jsonContent = JSON.parse(content);
+const mdbUri = process.env.DROP_MDB_URI;
 
 let count = jsonContent.features.length;
 
-mongoose.connect('mongodb://jscottdutcher:5eD8xe5T6vr3@jessdb-shard-00-00-98ywm.mongodb.net:27017,jessdb-shard-00-01-98ywm.mongodb.net:27017,jessdb-shard-00-02-98ywm.mongodb.net:27017/test?ssl=true&replicaSet=JessDB-shard-0&authSource=admin');
+mongoose.connect(mdbUri);
 
 for (var i = 0; i < jsonContent.features.length; i++) {
 
