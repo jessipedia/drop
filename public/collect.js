@@ -57,11 +57,18 @@ function drawButtons(){
   container.appendChild(inputBox)
 }
 
-function submitLoc(){
-  console.log('Button!');
+function findValues(){
+  let checkVal1 = document.getElementById('checkbox1').checked;
+  let checkVal2 = document.getElementById('checkbox2').checked;
+  let checkVal3 = document.getElementById('checkbox3').checked;
+  return('drink_fount=' + checkVal1 + '&bathroom=' + checkVal2 + '&other=' +  checkVal3)
   
+}
+
+
+function submitLoc(){
+  let info = findValues();
   httpRequest = new XMLHttpRequest();
-  let info = 'lorem=ipsum&name=binny';
   
   if (!httpRequest){
     console.log('Cannot create XMLHTTP instance');

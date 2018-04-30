@@ -6,13 +6,22 @@ let siteId = [];
 let numFountains = [];
 readTextFile(fountains)
 
+fetch('/234598')
+  .then(res => res.text())
+  .then(text => drawTiles(text))
+  .catch(err => { throw err });
+
 var mymap = L.map('mapid').setView([40.7531114, -73.9450298], 13);
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.streets',
-    accessToken: config.MY_KEY
-}).addTo(mymap);
+
+function drawTiles(res){
+
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      accessToken: res
+  }).addTo(mymap);
+}
 
 
 for (var i = 0; i < parks.features.length; i++) {
