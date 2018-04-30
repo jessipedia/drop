@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
-const Property = require('./schema.js').Property;
+const Property = require('./schemas/schema.js').Property;
+const sendKey = require('./routes/sendKey.js');
 const mdbUri = process.env.DROP_MDB_URI;
 
 const server = app.listen(process.env.PORT || 3000, listen);
@@ -18,6 +19,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/api/v1/prop', propResult);
 
+app.use('/234598', sendKey);
+
 app.post('/addloc', function (req, res) {
   let info = req.body;
   res.send('POST request to the homepage')
@@ -28,12 +31,12 @@ function propResult(req, res){
   const data = req.query;
   // const drink_fount = data.drink_fount;
   // const bathrooms = data.bathrooms;
-  
+
   buildQuery(data)
     .then(result => search(result))
-  
+
   //console.log(Object.keys(data));
-  
+
   //search for df & br
 }
 
@@ -54,10 +57,10 @@ function buildQuery(data){
 
 function search(query){
   console.log(query);
-  
+
   mongoose.connect(mdbUri);
   console.log('DB Connected');
-  
+
   Property.find({query}, function(err, docs){
     if (err) {
       //res.send(err)
