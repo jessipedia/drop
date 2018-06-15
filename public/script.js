@@ -4,9 +4,10 @@ let fountains = "drinking_fountains.csv";
 let csvData;
 let siteId = [];
 let numFountains = [];
+
 readTextFile(fountains)
 
-fetch('/234598')
+fetch('/key')
   .then(res => res.text())
   .then(text => drawTiles(text))
   .catch(err => { throw err });
@@ -14,7 +15,7 @@ fetch('/234598')
 var mymap = L.map('mapid').setView([40.7531114, -73.9450298], 13);
 
 function drawTiles(res){
-
+  console.log(res);
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18,
@@ -27,7 +28,7 @@ function drawTiles(res){
 for (var i = 0; i < parks.features.length; i++) {
 
   //console.log(parks.features[i].properties.omppropid);
-  console.log(parks.features[i]);
+  // console.log(parks.features[i]);
   L.geoJSON(parks.features[i]).addTo(mymap)
 
 }

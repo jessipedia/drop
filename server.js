@@ -1,3 +1,4 @@
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
@@ -19,12 +20,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/api/v1/prop', propResult);
 
-app.use('/234598', sendKey);
+app.use('/key', sendKey);
 
 app.post('/addloc', function (req, res) {
   let info = req.body;
   res.send('POST request to the homepage')
   console.log(info);
+  info = JSON.stringify(info);
+  fs.appendFileSync('locations.txt', info + '\n');
 })
 
 function propResult(req, res){
